@@ -1,9 +1,9 @@
 import { NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
-import { randomBytes } from "crypto";
+// removed email verification flow: no token generation
 import { z } from "zod";
 import { prisma } from "@/lib/prisma";
-import { sendVerificationEmail } from "@/lib/email";
+// sendVerificationEmail removed from register flow
 import { ADMIN_EMAILS } from "@/lib/constants";
 
 const registerSchema = z.object({
@@ -56,23 +56,15 @@ export async function POST(request: Request) {
       },
     });
 
-    const token = randomBytes(32).toString("hex");
-    const expires = new Date(Date.now() + 24 * 60 * 60 * 1000);
-
-    await prisma.verificationToken.create({
-      data: {
-        identifier: normalizedEmail,
-        token,
-        expires,
-      },
+    // Auto-verify email since verification flow removed
+    await prisma.user.update({
+      where: { id: user.id },
+      data: { emailVerified: new Date() },
     });
-
-    await sendVerificationEmail(normalizedEmail, token);
 
     return NextResponse.json(
       {
-        message:
-          "Account created. Please check your email to verify your account.",
+        message: "Account created. You can now sign in.",
         userId: user.id,
       },
       { status: 201 },

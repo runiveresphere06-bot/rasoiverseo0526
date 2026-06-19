@@ -10,7 +10,6 @@ import { Logo } from "@/components/layout/Logo";
 export function LoginForm() {
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get("callbackUrl") ?? "/";
-  const verified = searchParams.get("verified") === "true";
   const error = searchParams.get("error");
 
   const [email, setEmail] = useState("");
@@ -33,11 +32,7 @@ export function LoginForm() {
     setLoading(false);
 
     if (result?.error) {
-      if (result.error === "EMAIL_NOT_VERIFIED") {
-        setFormError("Please verify your email before signing in.");
-      } else {
-        setFormError("Invalid email or password.");
-      }
+      setFormError("Invalid email or password.");
       return;
     }
 
@@ -58,11 +53,6 @@ export function LoginForm() {
         </div>
 
         <div className="rounded-2xl border border-primary/8 bg-white p-8 shadow-sm">
-          {verified && (
-            <div className="mb-4 rounded-lg bg-green-50 px-4 py-3 text-sm text-green-700">
-              Email verified! You can now sign in.
-            </div>
-          )}
           {error && (
             <div className="mb-4 rounded-lg bg-red-50 px-4 py-3 text-sm text-red-700">
               Authentication failed. Please try again.

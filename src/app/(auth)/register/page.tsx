@@ -2,10 +2,14 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { signIn } from "next-auth/react";
+import { useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/Button";
 import { Logo } from "@/components/layout/Logo";
 
 export default function RegisterPage() {
+  const searchParams = useSearchParams();
+  const callbackUrl = searchParams.get("callbackUrl") ?? "/";
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -45,14 +49,10 @@ export default function RegisterPage() {
       <div className="flex min-h-screen items-center justify-center bg-background px-6 py-12">
         <div className="w-full max-w-md rounded-2xl border border-primary/8 bg-white p-8 text-center shadow-sm">
           <h1 className="font-serif text-2xl font-semibold text-primary">
-            Check your email
+            Account created
           </h1>
           <p className="mt-4 text-primary/60">
-            We&apos;ve sent a verification link to <strong>{email}</strong>.
-            Click the link to activate your account.
-          </p>
-          <p className="mt-2 text-sm text-primary/40">
-            In development mode, check your server console for the verification URL.
+            Your account <strong>{email}</strong> has been created. You can now sign in.
           </p>
           <Button href="/login" className="mt-6">
             Go to Sign in
@@ -81,6 +81,21 @@ export default function RegisterPage() {
               {error}
             </div>
           )}
+
+          <Button
+            type="button"
+            variant="outline"
+            className="w-full mb-3"
+            onClick={() => signIn("google", { callbackUrl })}
+          >
+            Continue with Google
+          </Button>
+
+          <div className="my-6 flex items-center gap-4">
+            <div className="h-px flex-1 bg-primary/10" />
+            <span className="text-xs text-primary/40">or</span>
+            <div className="h-px flex-1 bg-primary/10" />
+          </div>
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
