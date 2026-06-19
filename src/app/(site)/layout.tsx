@@ -5,6 +5,7 @@ import { Footer } from "@/components/layout/Footer";
 export const metadata: Metadata = {
   other: {
     "bitmedia-site-verification": "fb9147ba56a65f5d363c2142c923ac6e",
+    "google-site-verification": "WiAM92TRtOeSUKAX8s4BUkqbwHKfEFwIMx6zn7vPbsw",
   },
 };
 
