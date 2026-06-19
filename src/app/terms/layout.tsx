@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   other: {
-    "bitmedia-site-verification": "cdec7837f4e46599dbc2d6e003ab4b90",
+    "bitmedia-site-verification": "fb9147ba56a65f5d363c2142c923ac6e",
   },
 };
 
